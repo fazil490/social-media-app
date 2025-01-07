@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #fafafa;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Hides scrollbar for IE and Edge */
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+}
