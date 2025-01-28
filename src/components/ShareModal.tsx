@@ -7,7 +7,7 @@ const ShareModal = () => {
   return (
     <div
       className={`${
-        isShareModalOpen ? "top-0 right-0" : "-right-[800px] top-0"
+        isShareModalOpen ? "top-0 right-0" : "-right-[1000px] top-0"
       } transition-all duration-300 absolute lg:rounded-xl z-30 flex items-center justify-center bg-black w-full h-full bg-opacity-70`}
     >
         <Share />

@@ -14,7 +14,7 @@ const LogoutModal = () => {
   return (
     <div
       className={`${
-        isLogoutModalOpen ? "inset-0" : "-top-[1100px] right-0 left-0"
+        isLogoutModalOpen ? "inset-0" : "-top-[1500px] right-0 left-0"
       } transition-all duration-300 absolute lg:rounded-x z-30 flex items-center justify-center bg-black w-full h-full bg-opacity-70`}
     >
       <div className="bg-white rounded-lg shadow-lg p-6 w-[80%] md:w-1/2 xl:w-[45%] text-center font-KSans">
