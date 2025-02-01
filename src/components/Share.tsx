@@ -10,7 +10,7 @@ import {
   FaTwitter,
   FaWhatsapp,
 } from "react-icons/fa";
-import Social from "./social";
+import Social from "./Social";
 
 const socialLinks = [
   {

@@ -3,10 +3,12 @@ import { createContext, ReactNode, useContext, useState } from "react";
 interface HomeContextType {
   isLogoutModalOpen: boolean;
   isShareModalOpen: boolean;
+  postUrl: string | null;
   openModal: () => void;
   closeModal: () => void;
   openShare: () => void;
   closeShare: () => void;
+  setPostUrl: (url: string) => void;
 }
 
 const HomeContext = createContext<HomeContextType | undefined>(undefined);
@@ -18,6 +20,7 @@ interface HomeProviderType {
 export const HomeProvider: React.FC<HomeProviderType> = ({ children }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [postUrl, setPostUrl] = useState<string | null>(null);
   const openModal = () => setIsLogoutModalOpen(true);
   const closeModal = () => setIsLogoutModalOpen(false);
   const openShare = () => setIsShareModalOpen(true);
@@ -31,6 +34,8 @@ export const HomeProvider: React.FC<HomeProviderType> = ({ children }) => {
         closeModal,
         openShare,
         closeShare,
+        postUrl,
+        setPostUrl,
       }}
     >
       {children}
@@ -39,5 +44,9 @@ export const HomeProvider: React.FC<HomeProviderType> = ({ children }) => {
 };
 
 export const useHomeContext = () => {
-  return useContext(HomeContext);
+  const context = useContext(HomeContext);
+  if (context === undefined) {
+    throw new Error("useHomeContext must be used within a HomeProvider");
+  }
+  return context;
 };
