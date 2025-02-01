@@ -1,12 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
     uid: string | null,
     name: string | null,
-    email: string | null,
+    email?: string | null,
     photoUrl: string | null,
     bio: string | null,
-    isAuthenticated: boolean
+    isAuthenticated?: boolean
+    coverImg: string | null
 }
 
 const initialState: UserState = {
@@ -15,6 +16,7 @@ const initialState: UserState = {
     email: null,
     photoUrl: null,
     bio: null,
+    coverImg: null,
     isAuthenticated: false,
 }
 
@@ -29,6 +31,7 @@ const userSlice = createSlice({
             state.photoUrl = action.payload.photoUrl
             state.bio = action.payload.bio
             state.isAuthenticated = true
+            state.coverImg = action.payload.coverImg
         },
         logOut: (state) => {
             state.uid = null;
@@ -36,9 +39,14 @@ const userSlice = createSlice({
             state.email = null;
             state.photoUrl = null;
             state.isAuthenticated = false;
-        }
+            state.coverImg = null
+            state.bio = null
+        },
+        setUser: (state, action: PayloadAction<UserState>) => {
+            return action.payload;
+        },
     }
 })
 
-export const { logIn, logOut } = userSlice.actions
+export const { logIn, logOut, setUser } = userSlice.actions
 export default userSlice.reducer
