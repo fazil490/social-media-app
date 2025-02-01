@@ -7,6 +7,7 @@ import { logIn } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
+import { setUserDetails } from "../redux/postSlice";
 
 const GoogleSignIn = () => {
   const [progress, setProgress] = useState<boolean>(false);
@@ -25,7 +26,8 @@ const GoogleSignIn = () => {
         name: user?.displayName,
         email: user?.email,
         photoUrl: user?.photoURL,
-        bio: null,
+        bio: "",
+        coverImg: "",
       };
 
       //check if user already exists
@@ -39,8 +41,18 @@ const GoogleSignIn = () => {
         const existingUserData = userSnap.data();
         userData.name = existingUserData.name;
         userData.photoUrl = existingUserData.photoUrl;
+        userData.bio = existingUserData.bio;
+        userData.coverImg = existingUserData.coverImg;
+        console.log(existingUserData);
       }
       dispatch(logIn(userData));
+      dispatch(
+        setUserDetails({
+          uid: userData.uid,
+          userName: userData.name || "",
+          userProfilePicture: userData.photoUrl || "",
+        })
+      );
       navigate("/home");
       setProgress(false);
     } catch (error) {

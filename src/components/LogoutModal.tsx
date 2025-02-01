@@ -2,12 +2,14 @@ import { useHomeContext } from "../context/HomeContext";
 import { logOut } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { clearAll } from "../redux/postSlice";
 const LogoutModal = () => {
   const { isLogoutModalOpen, closeModal } = useHomeContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogOut = () => {
     dispatch(logOut());
+    dispatch(clearAll());
     navigate("/");
     closeModal();
   };
