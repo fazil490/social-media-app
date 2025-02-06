@@ -6,7 +6,7 @@ interface postContent {
     uid: string | null;
     userName: string | null;
     userProfilePicture: string | null;
-    likes: number;
+    likes: string[];
     mediaType: string | null;
 }
 
@@ -16,7 +16,7 @@ const initialState: postContent = {
     uid: null,
     userName: null,
     userProfilePicture: null,
-    likes: 0,
+    likes: [],
     mediaType: null,
 }
 
@@ -48,7 +48,7 @@ const postSlice = createSlice({
             state.description = null;
             state.media = [];
             state.mediaType = null;
-            state.likes = 0
+            state.likes = []
         },
         clearAll: () => initialState,
     },

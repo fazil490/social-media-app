@@ -1,9 +1,19 @@
-import { FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useHomeContext } from "../context/HomeContext";
 import { PostType } from "./Feed";
 import { useState } from "react";
 import ImagePreview from "./ImagePreview";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../utils/firebase";
 
 interface PostProps {
   post: PostType;
@@ -12,6 +22,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const [showPreview, setShowPreview] = useState<string>("");
   const {
+    id,
     description,
     media,
     createdAt,
@@ -21,12 +32,51 @@ const Post: React.FC<PostProps> = ({ post }) => {
     mediaType,
   } = post;
   const { openShare, setPostUrl } = useHomeContext();
-  // const handleShareClick = (url: string) => {
-  //   setPostUrl(`https://yourwebsite.com/posts/${url}`);
-  //   openShare();
-  // };
+
+  const [like, setLike] = useState<string[]>(post?.likes || []);
+  const userId = useSelector((state: RootState) => state.user.uid);
+
+  const formatDate = (createdAt: Timestamp | Date): string => {
+    const date =
+      createdAt instanceof Timestamp ? createdAt.toDate() : createdAt;
+
+    return new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(date);
+  };
+
+  const handleLike = async () => {
+    if (!userId) return;
+    const postRef = doc(db, "posts", post.id);
+    const isLiked = likes?.includes(userId);
+
+    try {
+      if (isLiked) {
+        setLike((prevlikes) => prevlikes.filter((id) => id !== userId));
+        await updateDoc(postRef, {
+          likes: arrayRemove(userId),
+        });
+      } else {
+        setLike((prevLikes) => [...prevLikes, userId]);
+        await updateDoc(postRef, {
+          likes: arrayUnion(userId),
+        });
+      }
+    } catch (error) {
+      console.error("Error updating likes", error);
+    }
+  };
+
+  const handleShare = (url: string) => {
+    setPostUrl(url);
+    openShare();
+  };
   return (
-    <section className="rounded-3xl bg-postBgLav p-4 flex flex-col items-start gap-3">
+    <section
+      // onClick={() => handleNavigateToPost(id)}
+      className="rounded-3xl bg-postBgLav p-4 flex flex-col items-start gap-3"
+    >
       <div className="flex items-center gap-2">
         <img
           className="w-10 h-10 rounded-full cursor-pointer object-cover"
@@ -38,14 +88,18 @@ const Post: React.FC<PostProps> = ({ post }) => {
             {userName}
           </p>
           <p className="text-[10px] md:text-xs text-black text-opacity-50 font-KSans">
-            2 hours ago
+            {formatDate(createdAt)}
           </p>
         </div>
       </div>
       <div>
         <p className="text-xs md:text-sm font-KSans">{description}</p>
       </div>
-      <div className="w-full h-[240px] flex gap-2 overflow-x-auto hide-scrollbar">
+      <div
+        className={`w-full h-[240px] ${
+          media && media?.length > 0 && "flex"
+        } gap-2 overflow-x-auto hide-scrollbar`}
+      >
         {media && media?.length > 0 && (
           <>
             {mediaType === "Photos" ? (
@@ -53,7 +107,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 <img
                   onClick={() => media && setShowPreview(media)}
                   key={i}
-                  className="w-[270px] object-cover rounded-xl"
+                  className={`${
+                    media && media?.length > 1 ? "w-full" : "w-full"
+                  } object-contain rounded-xl`}
                   src={media}
                   alt={`media${i}`}
                 />
@@ -70,12 +126,19 @@ const Post: React.FC<PostProps> = ({ post }) => {
         )}
       </div>
       <div className="flex items-center justify-between w-full">
-        <span className="text-likePink flex items-center text-sm gap-1 font-medium cursor-pointer">
-          <FaRegHeart className="text-lg" />
-          {likes}
+        <span
+          onClick={handleLike}
+          className="text-likePink flex items-center text-sm gap-1 font-medium cursor-pointer"
+        >
+          {like?.includes(userId ?? "") ? (
+            <FaHeart className="text-lg" />
+          ) : (
+            <FaRegHeart className="text-lg" />
+          )}
+          {like?.length}
         </span>
         <div
-          onClick={openShare}
+          onClick={() => handleShare(id)}
           className="bg-black bg-opacity-[0.07] cursor-pointer px-2 py-1 flex items-center gap-1 rounded-3xl"
         >
           <RiSendPlaneFill className="text-xl rounded-full" />
