@@ -2,7 +2,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useHomeContext } from "../context/HomeContext";
 import { PostType } from "./Feed";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImagePreview from "./ImagePreview";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -72,11 +72,34 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setPostUrl(url);
     openShare();
   };
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (videoRef.current) {
+            if (entry.isIntersecting) {
+              videoRef.current.play(); // Play when visible
+            } else {
+              videoRef.current.pause(); // Pause when out of view
+            }
+          }
+        });
+      },
+      { threshold: 0.7 } // Trigger when 70% of video is visible
+    );
+
+    if (videoRef.current) observer.observe(videoRef.current);
+
+    return () => {
+      if (videoRef.current) observer.unobserve(videoRef.current);
+    };
+  }, []);
+
   return (
-    <section
-      // onClick={() => handleNavigateToPost(id)}
-      className="rounded-3xl bg-postBgLav p-4 flex flex-col items-start gap-3"
-    >
+    <section className="rounded-3xl bg-postBgLav p-4 flex flex-col items-start gap-3">
       <div className="flex items-center gap-2">
         <img
           className="w-10 h-10 rounded-full cursor-pointer object-cover"
@@ -109,17 +132,18 @@ const Post: React.FC<PostProps> = ({ post }) => {
                   key={i}
                   className={`${
                     media && media?.length > 1 ? "w-full" : "w-full"
-                  } object-contain rounded-xl`}
+                  } h-full object-contain rounded-xl`}
                   src={media}
                   alt={`media${i}`}
                 />
               ))
             ) : mediaType === "Video" ? (
               <video
+                ref={videoRef}
                 src={media[0]}
-                className="w-full h-full rounded-lg object-contain"
+                className="w-full h-full rounded-xl object-contain"
                 controls
-                autoPlay
+                muted
               />
             ) : null}
           </>
