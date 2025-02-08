@@ -9,9 +9,9 @@ const CreatePostFloatingBtn = () => {
   return (
     <div
       onClick={handleCreatePost}
-      className="bg-darkGray rounded-full w-fit p-2 cursor-pointer absolute bottom-14 right-7"
+      className="bg-darkGray rounded-full w-fit p-3 cursor-pointer absolute bottom-16 right-7"
     >
-      <IoAdd className="text-white text-2xl" />
+      <IoAdd className="text-white text-4xl" />
     </div>
   );
 };
