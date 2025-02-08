@@ -38,8 +38,6 @@ const NewPost = () => {
   const addMorePhotos = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);
 
-  console.log("content", postContent);
-
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -176,19 +174,20 @@ const NewPost = () => {
               </div>
             </div>
           ) : null}
-
-          <div
-            onClick={() =>
-              addMorePhotos.current && addMorePhotos.current.click()
-            }
-            className="my-2"
-          >
-            <MediaOption
-              showProgress={showProgress}
-              iconSrc={photosIcon}
-              label="Add more photos"
-            />
-          </div>
+          {postContent?.mediaType === "Photos" ? (
+            <div
+              onClick={() =>
+                addMorePhotos.current && addMorePhotos.current.click()
+              }
+              className="my-2"
+            >
+              <MediaOption
+                showProgress={showProgress}
+                iconSrc={photosIcon}
+                label="Add more photos"
+              />
+            </div>
+          ) : null}
         </>
       )}
       <textarea
@@ -250,6 +249,7 @@ const NewPost = () => {
           type="file"
           accept="image/*"
           multiple
+          capture="environment"
           onChange={(e) => handleFileChange(e, "Photos", "Add more photos")}
         />
         <input
