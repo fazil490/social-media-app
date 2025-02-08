@@ -76,14 +76,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
+    const videoElement = videoRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (videoRef.current) {
+          if (videoElement) {
             if (entry.isIntersecting) {
-              videoRef.current.play(); // Play when visible
+              videoElement.play(); // Play when visible
             } else {
-              videoRef.current.pause(); // Pause when out of view
+              videoElement.pause(); // Pause when out of view
             }
           }
         });
@@ -91,10 +92,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
       { threshold: 0.7 } // Trigger when 70% of video is visible
     );
 
-    if (videoRef.current) observer.observe(videoRef.current);
+    if (videoElement) observer.observe(videoElement);
 
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current);
+      if (videoElement) observer.unobserve(videoElement);
     };
   }, []);
 

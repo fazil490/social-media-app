@@ -111,7 +111,7 @@ const Profile: React.FC = () => {
       user?.photoUrl != userInfo?.photoUrl;
 
     setChangesHappened(hasChanges);
-  }, [userInfo]);
+  }, [user, userInfo]);
 
   return (
     <main className="relative h-full">

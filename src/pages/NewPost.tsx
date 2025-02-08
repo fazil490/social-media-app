@@ -7,8 +7,8 @@ import photosIcon from "../assets/photos_icon.svg";
 import videosIcon from "../assets/videos_icon.svg";
 import MediaOption from "../components/MediaOption";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css"; // For all Swiper styles
-import { Navigation, Pagination } from "swiper/modules"; // For modules
+import "swiper/swiper-bundle.css"; 
+import { Navigation, Pagination } from "swiper/modules"; 
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import {

@@ -7,7 +7,6 @@ import userPlaceholder from "../assets/userPlaceholder.jpg";
 const HomeHeader = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
-  console.log(user);
 
   return (
     <header className="flex items-center justify-between">

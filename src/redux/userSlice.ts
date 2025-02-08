@@ -43,7 +43,7 @@ const userSlice = createSlice({
             state.bio = null
         },
         setUser: (state, action: PayloadAction<UserState>) => {
-            return action.payload;
+            return { ...state, ...action.payload };
         },
     }
 })

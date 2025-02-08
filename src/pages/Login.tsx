@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-
 import logo from "../assets/app_logo.png";
-
 import bg from "../assets/splash-screen-bg.png";
 import GoogleSignIn from "../components/GoogleSignIn";
 import { RootState } from "../redux/store";
@@ -26,7 +24,7 @@ const Login: React.FC = () => {
           <div className="flex items-center gap-2">
             <img src={logo} alt="app-logo" />
             <p className="font-Karla text-[24px] md:text-[28px] font-semibold">
-              Feedly
+              Postify
             </p>
           </div>
           <p className="font-KSans md:text-lg">

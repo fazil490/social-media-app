@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { db } from "../utils/firebase";
 import { PostType } from "./Feed";
 import { CircularProgress } from "@mui/material";
@@ -13,10 +13,9 @@ interface MyPostProps {
 const MyPosts: React.FC<MyPostProps> = ({ userId }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  console.log(posts);
   const navigate = useNavigate();
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     if (!userId) return;
 
     try {
@@ -36,7 +35,7 @@ const MyPosts: React.FC<MyPostProps> = ({ userId }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
   const handleNavigateToPost = (postId: string) => {
     navigate(`/post/${postId}`);
@@ -44,7 +43,7 @@ const MyPosts: React.FC<MyPostProps> = ({ userId }) => {
 
   useEffect(() => {
     fetchPosts();
-  }, [userId]);
+  }, [userId, fetchPosts]);
 
   return (
     <main className={`my-4 ${loading && "flex items-center justify-center"}`}>
