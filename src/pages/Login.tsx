@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import logo from "../assets/app_logo.png";
 
 import bg from "../assets/splash-screen-bg.png";
 import GoogleSignIn from "../components/GoogleSignIn";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [isAuthenticated, navigate]);
   return (
     <section className="w-full h-full relative">
       <img src={bg} className="h-[85vh] w-full rounded-t-xl" alt="background" />

@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import store, { persistor } from "./redux/store";
 import NewPost from "./pages/NewPost";
 import { HomeProvider } from "./context/HomeContext";
 import Profile from "./pages/Profile";
 import { PersistGate } from "redux-persist/es/integration/react";
-// import ProtectedRoute from "./utils/ProtectedRoute";
+import SinglePost from "./pages/SinglePost";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 const AppContent = () => {
   return (
@@ -19,13 +20,39 @@ const AppContent = () => {
             <Route
               path="/home"
               element={
-                <HomeProvider>
-                  <Home />
-                </HomeProvider>
+                <ProtectedRoute>
+                  <HomeProvider>
+                    <Home />
+                  </HomeProvider>
+                </ProtectedRoute>
               }
             />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/new-post" element={<NewPost />} />
+            <Route
+              path="/post/:post_id"
+              element={
+                <ProtectedRoute>
+                  <HomeProvider>
+                    <SinglePost />
+                  </HomeProvider>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/new-post"
+              element={
+                <ProtectedRoute>
+                  <NewPost />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
       </main>
