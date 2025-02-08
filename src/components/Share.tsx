@@ -70,7 +70,7 @@ const Share = () => {
     });
   };
   const { closeShare, postUrl } = useHomeContext();
-  const link = `http://localhost:5173/post/${postUrl}`;
+  const link = `https://postify-mif.vercel.app/post/${postUrl}`;
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 w-[80%] md:w-1/2 xl:w-[45%] font-KSans">
       <div className="flex items-center justify-between">
