@@ -68,7 +68,7 @@ const Feed = () => {
       <div
         className={`h-[85%] ${
           progress && "items-center justify-center"
-        } hide-scrollbar overflow-y-auto py-4 flex flex-col gap-4`}
+        } hide-scrollbar overflow-y-auto pt-4 pb-16 flex flex-col gap-4`}
       >
         {progress ? (
           <CircularProgress color="inherit" size={33} />
