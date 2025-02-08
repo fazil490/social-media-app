@@ -11,9 +11,11 @@ const HomeHeader = () => {
 
   return (
     <header className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
+      <div
+        onClick={() => navigate("/profile")}
+        className="flex items-center gap-2"
+      >
         <img
-          onClick={() => navigate("/profile")}
           className="w-14 h-14 rounded-full cursor-pointer object-cover"
           src={user?.photoUrl ? user?.photoUrl : userPlaceholder}
           alt="user-profile"

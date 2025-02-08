@@ -66,11 +66,11 @@ const socialLinks = [
 const Share = () => {
   const copyToClipboard = (link: string) => {
     navigator.clipboard.writeText(link).then(() => {
-        alert("Link copied to clipboard!")
-    })
+      alert("Link copied to clipboard!");
+    });
   };
-  const { closeShare } = useHomeContext();
-  const link = "https://tailwindcss.com/docs/grid-template-columns";
+  const { closeShare, postUrl } = useHomeContext();
+  const link = `http://localhost:5173/post/${postUrl}`;
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 w-[80%] md:w-1/2 xl:w-[45%] font-KSans">
       <div className="flex items-center justify-between">
@@ -89,8 +89,8 @@ const Share = () => {
       </div>
       <div>
         <h3 className="mt-6 mb-3 font-Karla font-semibold">Page Link</h3>
-        <div className="bg-zinc-100 font-KSans p-4 rounded-xl flex items-center justify-between">
-          <p className="text-xs lg:text-sm">{link}</p>
+        <div className="bg-zinc-100 font-KSans p-4 rounded-xl flex items-center gap-4">
+          <p className="text-xs lg:text-sm truncate">{link}</p>
           <span
             onClick={() => copyToClipboard(link)}
             className="cursor-pointer"

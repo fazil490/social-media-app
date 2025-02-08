@@ -22,9 +22,14 @@ export const HomeProvider: React.FC<HomeProviderType> = ({ children }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [postUrl, setPostUrl] = useState<string | null>(null);
   const openModal = () => setIsLogoutModalOpen(true);
-  const closeModal = () => setIsLogoutModalOpen(false);
+  const closeModal = () => {
+    setIsLogoutModalOpen(false);
+  };
   const openShare = () => setIsShareModalOpen(true);
-  const closeShare = () => setIsShareModalOpen(false);
+  const closeShare = () => {
+    setIsShareModalOpen(false);
+    setPostUrl(null);
+  };
   return (
     <HomeContext.Provider
       value={{
