@@ -12,7 +12,7 @@ const ImagePreview = ({
       onClick={() => setShowPreview("")}
       className={`${
         url ? "opacity-100 z-30" : "opacity-0 -z-30"
-      } transition-opacity duration-300 absolute inset-0 max-h-full bg-black bg-opacity-70 flex items-center lg:rounded-xl justify-center`}
+      } transition-opacity duration-300 absolute inset-0 max-h-full bg-black bg-opacity-80 flex items-center lg:rounded-xl justify-center`}
     >
       <img
         className="max-w-[90%] max-h-[90%] object-contain"
