@@ -5,6 +5,7 @@ import { db } from "../utils/firebase";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import Post from "../components/Post";
+import ShareModal from "../components/ShareModal";
 
 interface Post {
   id: string;
@@ -62,6 +63,7 @@ const SinglePost = () => {
           post && <Post post={post} />
         )}
       </div>
+      <ShareModal />
     </main>
   );
 };

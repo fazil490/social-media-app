@@ -1,11 +1,19 @@
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const NavigateBack = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const handleNavigate = () => {
+    if (location.pathname.includes("/post")) {
+      navigate("/home");
+    } else {
+      navigate(-1);
+    }
+  };
   return (
     <IoMdArrowRoundBack
-      onClick={() => navigate(-1)}
+      onClick={handleNavigate}
       className="cursor-pointer text-xl"
     />
   );
