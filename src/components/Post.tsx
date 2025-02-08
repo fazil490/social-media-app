@@ -100,7 +100,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   }, []);
 
   return (
-    <section className="rounded-3xl bg-zinc-50 shadow-md p-4 flex flex-col items-start gap-3">
+    <section className="rounded-3xl bg-zinc-100 shadow-md p-4 flex flex-col items-start gap-3">
       <div className="flex items-center gap-2">
         <img
           className="w-10 h-10 rounded-full cursor-pointer object-cover"
