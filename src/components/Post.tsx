@@ -117,7 +117,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </div>
       </div>
       <div>
-        <p className="text-xs md:text-sm font-KSans">{description}</p>
+        <p className="text-base md:text-lg font-KSans">{description}</p>
       </div>
       <div
         className={`w-full h-[240px] ${
