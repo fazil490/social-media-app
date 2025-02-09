@@ -103,11 +103,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
     <section className="rounded-3xl bg-zinc-100 shadow-md p-4 flex flex-col items-start gap-3">
       <div className="flex items-center gap-2">
         <img
-          className="w-10 h-10 rounded-full cursor-pointer object-cover"
+          className="w-10 h-10 rounded-full object-cover"
           src={userProfilePicture}
           alt="user-profile-picture"
         />
-        <div className="">
+        <div>
           <p className="font-semibold text-base md:text-lg font-Karla">
             {userName}
           </p>
@@ -120,29 +120,36 @@ const Post: React.FC<PostProps> = ({ post }) => {
         <p className="text-base md:text-lg font-KSans">{description}</p>
       </div>
       <div
-        className={`w-full h-[240px] ${
+        className={`w-full ${
           media && media?.length > 0 && "flex"
-        } gap-2 overflow-x-auto hide-scrollbar`}
+        } gap-3 overflow-x-auto hide-scrollbar`}
       >
         {media && media?.length > 0 && (
           <>
             {mediaType === "Photos" ? (
               media?.map((media, i) => (
-                <img
-                  onClick={() => media && setShowPreview(media)}
-                  key={i}
-                  className={`${
-                    media && media?.length > 1 ? "w-full" : "w-full"
-                  } h-full object-contain rounded-xl`}
-                  src={media}
-                  alt={`media${i}`}
-                />
+                <div
+                  className={`flex-shrink-0 w-fit mx-auto relative rounded-xl`}
+                >
+                  <img
+                    onClick={() => media && setShowPreview(media)}
+                    key={i}
+                    className={`w-full h-[240px] object-contain rounded-xl`}
+                    src={media}
+                    alt={`media${i}`}
+                  />
+                  {post?.media && post?.media?.length > 1 && (
+                    <div className="absolute top-2 right-3 bg-black bg-opacity-50 text-white rounded-full px-2 text-sm font-medium font-KSans">
+                      {i + 1}/{post?.media?.length}
+                    </div>
+                  )}
+                </div>
               ))
             ) : mediaType === "Video" ? (
               <video
                 ref={videoRef}
                 src={media[0]}
-                className="w-full h-full rounded-xl object-contain"
+                className="w-full h-[300px] rounded-xl object-contain"
                 controls
                 muted
               />
