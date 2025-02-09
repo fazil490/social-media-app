@@ -32,8 +32,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     mediaType,
   } = post;
   const { openShare, setPostUrl } = useHomeContext();
-
-  const [like, setLike] = useState<string[]>(post?.likes || []);
+  const [like, setLike] = useState<string[]>(likes || []);
   const userId = useSelector((state: RootState) => state.user.uid);
 
   const formatDate = (createdAt: Timestamp | Date): string => {
@@ -49,7 +48,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const handleLike = async () => {
     if (!userId) return;
     const postRef = doc(db, "posts", post.id);
-    const isLiked = likes?.includes(userId);
+    const isLiked = like?.includes(userId);
 
     try {
       if (isLiked) {
