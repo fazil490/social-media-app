@@ -7,8 +7,8 @@ import photosIcon from "../assets/photos_icon.svg";
 import videosIcon from "../assets/videos_icon.svg";
 import MediaOption from "../components/MediaOption";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css"; 
-import { Navigation, Pagination } from "swiper/modules"; 
+import "swiper/swiper-bundle.css";
+import { Navigation, Pagination } from "swiper/modules";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import {
@@ -76,7 +76,15 @@ const NewPost = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "user_posts");
-    formData.append("chunk_size", "3000000");
+
+    if (type === "Video") {
+      formData.append("chunk_size", "3000000");
+    }
+
+    if (type === "Image") {
+      formData.append("quality", "auto");
+      formData.append("fetch_format", "auto");
+    }
 
     const cloudName = import.meta.env.VITE_CLOUD_NAME;
     if (!cloudName) {
@@ -89,7 +97,11 @@ const NewPost = () => {
         : `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
     try {
-      const response = await axios.post(url, formData);
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const uploadedUrl = response.data.secure_url;
       dispatch(addMedia(uploadedUrl));
       setShowProgress("");
@@ -100,9 +112,7 @@ const NewPost = () => {
     }
   };
 
-  const isPostHasContent =
-    (postContent?.description?.trim()?.length ?? 0) > 0 ||
-    (postContent?.media?.length ?? 0) > 0;
+  const isPostHasContent = (postContent?.media?.length ?? 0) > 0;
 
   const createPost = async () => {
     setShowProgress("create");
